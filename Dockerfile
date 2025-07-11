@@ -7,10 +7,14 @@ COPY style.css /usr/share/nginx/html/style.css
 COPY script.js /usr/share/nginx/html/script.js
 
 # Copie la configuration Nginx personnalisée
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/conf.d/default.conf.template
+
+# Copie le script d'entrée et le rend exécutable
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
 
 # Expose le port 80
 EXPOSE 80
 
-# Commande pour démarrer Nginx
-CMD ["nginx", "-g", "daemon off;"]
+# Utilise le script d'entrée
+CMD ["entrypoint.sh"]
